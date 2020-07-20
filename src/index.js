@@ -21,10 +21,11 @@ class CreateStickyboardAppCommand extends Command {
 
         // Prompt for input application name
         if (!appName) {
-            const inputAppName = await cli.prompt(
+            let inputAppName = await cli.prompt(
                 `Enter application name(${DEFAULT_APP_NAME})`
             );
 
+            inputAppName = inputAppName.trim();
             if (inputAppName.length > 0) {
                 appName = inputAppName;
             } else {
@@ -53,7 +54,10 @@ class CreateStickyboardAppCommand extends Command {
 
         // Copy template to target directory
         try {
-            await fse.copy(path.join(__dirname, 'templates',"stickyboard-simple"), targetDirectory);
+            await fse.copy(
+                path.join(__dirname, "templates", "stickyboard-simple"),
+                targetDirectory
+            );
 
             this.log(`\nSuccess! Created ${appName} at ${targetDirectory}
     Inside that directory, you can run several commands:\n`);
@@ -62,7 +66,9 @@ class CreateStickyboardAppCommand extends Command {
             this.log("      Starts the app with development mode.\n");
 
             this.log(logPrimary("    npm run build"));
-            this.log("      Bundles the app into static files for production.\n");
+            this.log(
+                "      Bundles the app into static files for production.\n"
+            );
 
             this.log(logPrimary("    npm start"));
             this.log("      Starts the app with daemon mode using PM2.\n");

@@ -19,7 +19,7 @@ $ npm install -g create-stickyboard-app
 $ create-stickyboard-app COMMAND
 running command...
 $ create-stickyboard-app (-v|--version|version)
-create-stickyboard-app/0.1.1 darwin-x64 node-v12.8.1
+create-stickyboard-app/0.1.2 darwin-x64 node-v12.8.1
 $ create-stickyboard-app --help [COMMAND]
 USAGE
   $ create-stickyboard-app COMMAND
