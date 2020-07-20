@@ -1,0 +1,43 @@
+{
+  "name": "create-stickyboard-app",
+  "description": "Create StickyBoard app",
+  "version": "0.1.0",
+  "author": "Soaple",
+  "bin": {
+    "create-stickyboard-app": "./bin/run"
+  },
+  "bugs": "https://github.com/soaple/create-stickyboard-app/issues",
+  "dependencies": {
+    "@oclif/command": "^1.7.0",
+    "@oclif/config": "^1.16.0",
+    "@oclif/plugin-help": "^3.1.0"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.2",
+    "eslint": "^5.16.0",
+    "eslint-config-oclif": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/src"
+  ],
+  "homepage": "https://github.com/soaple/create-stickyboard-app",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "bin": "create-stickyboard-app"
+  },
+  "repository": "soaple/create-stickyboard-app",
+  "scripts": {
+    "posttest": "eslint .",
+    "prepack": "oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
