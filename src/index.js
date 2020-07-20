@@ -2,8 +2,13 @@ const fse = require("fs-extra");
 const path = require("path");
 const { Command, flags } = require("@oclif/command");
 const { cli } = require("cli-ux");
+const chalk = require("chalk");
 
 const DEFAULT_APP_NAME = "my-stickyboard-app";
+// const PRIMARY_COLOR = "#FFCA29";
+const PRIMARY_COLOR = "#ffff00";
+
+const logPrimary = chalk.hex(PRIMARY_COLOR);
 
 class CreateStickyboardAppCommand extends Command {
     static args = [{ name: "appName" }];
@@ -51,27 +56,24 @@ class CreateStickyboardAppCommand extends Command {
             await fse.copy("./templates/stickyboard-simple", targetDirectory);
 
             this.log(`\nSuccess! Created ${appName} at ${targetDirectory}
-    Inside that directory, you can run several commands:
+    Inside that directory, you can run several commands:\n`);
 
-      npm run dev
-        Starts the app with development mode.
+            this.log(logPrimary("    npm run dev"));
+            this.log("      Starts the app with development mode.\n");
 
-      npm run build
-        Bundles the app into static files for production.
+            this.log(logPrimary("    npm run build"));
+            this.log("      Bundles the app into static files for production.\n");
 
-      npm run production
-        Starts the app with production mode.
+            this.log(logPrimary("    npm start"));
+            this.log("      Starts the app with daemon mode using PM2.\n");
 
-      npm start
-        Starts the app with daemon mode using PM2.
+            this.log("    We suggest that you begin by typing:");
 
-    We suggest that you begin by typing:
+            this.log(logPrimary(`      cd ${appName}`));
+            this.log(logPrimary("      npm install"));
+            this.log(logPrimary("      npm run dev\n"));
 
-      cd ${appName}
-      npm install
-      npm run dev
-
-Happy hacking!\n`);
+            this.log("Happy hacking!\n");
         } catch (err) {
             console.error(err);
         }
