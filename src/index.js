@@ -35,7 +35,7 @@ class CreateStickyboardAppCommand extends Command {
         this.log(`Creating StickyBoard app (${appName})\n`);
 
         // Create a target directory
-        const targetDirectory = path.join(__dirname, appName);
+        const targetDirectory = path.join(process.cwd(), appName);
         this.log(`Target directory: ${targetDirectory}\n`);
         if (fse.existsSync(targetDirectory)) {
             const overwrite = await cli.confirm(
@@ -53,7 +53,7 @@ class CreateStickyboardAppCommand extends Command {
 
         // Copy template to target directory
         try {
-            await fse.copy("./templates/stickyboard-simple", targetDirectory);
+            await fse.copy(path.join(__dirname, '..', 'templates',"stickyboard-simple"), targetDirectory);
 
             this.log(`\nSuccess! Created ${appName} at ${targetDirectory}
     Inside that directory, you can run several commands:\n`);
