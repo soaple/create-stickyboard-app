@@ -8,9 +8,8 @@ class CreateStickyboardAppCommand extends Command {
   }
 }
 
-CreateStickyboardAppCommand.description = `Describe the command here
-...
-Extra documentation goes here
+CreateStickyboardAppCommand.description = `Create StickyBoard app
+Create StickyBoard apps with no build configuration.
 `;
 
 CreateStickyboardAppCommand.flags = {

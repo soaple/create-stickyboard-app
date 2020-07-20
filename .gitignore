@@ -1,7 +1,20 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# misc
+.DS_Store
+
+# logs
 *-debug.log
 *-error.log
+
 /.nyc_output
-/dist
 /tmp
-/yarn.lock
-node_modules
+/babel_cache
+/dist
+*.swp
+*.swo
+.idea
+tags
