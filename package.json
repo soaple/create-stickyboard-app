@@ -1,7 +1,7 @@
 {
   "name": "create-stickyboard-app",
   "description": "Create StickyBoard app",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Soaple",
   "bin": {
     "create-stickyboard-app": "./bin/run"
