@@ -13,11 +13,11 @@ const stickyboardConfig = require('./stickyboard.config');
 const NODE_ENV = process.env.NODE_ENV || 'production';
 const isProductionMode = NODE_ENV === 'production';
 const isWebpackDevServerMode = process.env.WEBPACK_DEV_SERVER_MODE === 'true';
-console.log('================ webpack.config.js ================');
+console.log('\n================ webpack.config.js ================');
 console.log(`process.env.NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`isProductionMode: ${isProductionMode}`);
 console.log(`isWebpackDevServerMode: ${isWebpackDevServerMode}`);
-console.log('================================================');
+console.log('===================================================\n');
 
 // Load .env configuration
 const envFilePath = isProductionMode ? '.env.production' : '.env.development';
