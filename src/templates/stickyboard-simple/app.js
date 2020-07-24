@@ -16,9 +16,18 @@ const envFilePath =
     process.env.NODE_ENV === 'production'
         ? '.env.production'
         : '.env.development';
-const envLoadResult = require('dotenv').config({ path: envFilePath });
-if (envLoadResult.error) {
-    throw envLoadResult.error;
+if (fs.existsSync(envFilePath)) {
+    const envLoadResult = require('dotenv').config({ path: envFilePath });
+    if (envLoadResult.error) {
+        console.log(envLoadResult.error);
+    } else {
+        console.log(`env file '${envFilePath}' loaded successfully.`);
+        if (process.env.NODE_ENV === 'development') {
+            console.log(envLoadResult.parsed);
+        }
+    }
+} else {
+    console.log(`env file '${envFilePath}' does not exist.\n`);
 }
 
 // Initialize the app
