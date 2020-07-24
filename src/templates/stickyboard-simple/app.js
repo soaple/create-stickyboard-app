@@ -23,11 +23,11 @@ if (fs.existsSync(envFilePath)) {
     } else {
         console.log(`env file '${envFilePath}' loaded successfully.`);
         if (process.env.NODE_ENV === 'development') {
-            console.log(envLoadResult.parsed);
+            console.log('[BACK-END]', envLoadResult.parsed);
         }
     }
 } else {
-    console.log(`env file '${envFilePath}' does not exist.\n`);
+    console.log(`env file '${envFilePath}' does not exist.`);
 }
 
 // Initialize the app
