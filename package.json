@@ -16,6 +16,10 @@
     "fs-extra": "^9.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-syntax-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
     "@oclif/dev-cli": "^1.22.2",
     "eslint": "^5.16.0",
     "eslint-config-oclif": "^3.1.0"
@@ -41,6 +45,7 @@
     "posttest": "eslint .",
     "prepublish": "oclif-dev readme",
     "test": "echo NO TESTS",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "transpile": "babel src/index.js --out-dir dist"
   }
 }
