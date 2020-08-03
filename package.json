@@ -46,6 +46,6 @@
     "prepublish": "oclif-dev readme",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md",
-    "transpile": "babel src/index.js --out-dir dist"
+    "transpile": "babel src/index.js --out-dir dist --ignore src/templates --copy-files src/templates --include-dotfiles"
   }
 }
