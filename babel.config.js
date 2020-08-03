@@ -9,5 +9,5 @@ module.exports = {
       },
     ],
   ],
-  plugins: ['@babel/plugin-syntax-class-properties'],
+  plugins: ['@babel/plugin-proposal-class-properties'],
 }

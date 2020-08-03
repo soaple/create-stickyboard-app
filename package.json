@@ -18,7 +18,7 @@
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.0",
-    "@babel/plugin-syntax-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@oclif/dev-cli": "^1.22.2",
     "eslint": "^5.16.0",
@@ -36,7 +36,7 @@
     "oclif"
   ],
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "oclif": {
     "bin": "create-stickyboard-app"
   },
