@@ -1,0 +1,31 @@
+<!-- view/index.ejs -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= htmlWebpackPlugin.options.metadata.title %></title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Meta tags for preview -->
+        <meta name="description" content="<%= htmlWebpackPlugin.options.metadata.description %>" />
+        <meta property="og:title" content="<%= htmlWebpackPlugin.options.metadata.title %>" />
+        <meta property="og:description" content="<%= htmlWebpackPlugin.options.metadata.description %>" />
+        <meta property="og:image" content="/static/image/StickyBoard_logo_only.png" />
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/static/image/favicon.png" type="image/x-icon">
+        <link rel="icon" href="/static/image/favicon.png" type="image/x-icon">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!-- Webpack Live Reload plugin -->
+        <script src="http://localhost:35729/livereload.js"></script>
+    </body>
+</html>
