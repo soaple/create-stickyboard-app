@@ -37,7 +37,7 @@
     "oclif"
   ],
   "license": "MIT",
-  "main": "out/index.js",
+  "main": "src/app.js",
   "oclif": {
     "bin": "create-stickyboard-app"
   },
@@ -47,7 +47,7 @@
     "prepublish": "oclif-dev readme",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md",
-    "transpile": "babel src/index.js --out-dir out --ignore src/templates --copy-files src/ --include-dotfiles"
+    "transpile": "babel src/index.js --out-file src/app.js"
   },
   "husky": {
     "hooks": {
