@@ -1,7 +1,7 @@
 {
   "name": "create-stickyboard-app",
   "description": "Create StickyBoard app",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "author": "Soaple",
   "bin": {
     "create-stickyboard-app": "./bin/run"
@@ -39,7 +39,7 @@
   "repository": "soaple/create-stickyboard-app",
   "scripts": {
     "posttest": "eslint .",
-    "prepack": "oclif-dev readme",
+    "prepublish": "oclif-dev readme",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md"
   }
