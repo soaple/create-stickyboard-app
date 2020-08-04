@@ -1,7 +1,7 @@
 {
   "name": "create-stickyboard-app",
   "description": "Create StickyBoard app",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "author": "Soaple",
   "bin": {
     "create-stickyboard-app": "./bin/run"
@@ -16,9 +16,14 @@
     "fs-extra": "^9.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
     "@oclif/dev-cli": "^1.22.2",
     "eslint": "^5.16.0",
-    "eslint-config-oclif": "^3.1.0"
+    "eslint-config-oclif": "^3.1.0",
+    "husky": "^4.2.5"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -32,7 +37,7 @@
     "oclif"
   ],
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "src/app.js",
   "oclif": {
     "bin": "create-stickyboard-app"
   },
@@ -41,6 +46,12 @@
     "posttest": "eslint .",
     "prepublish": "oclif-dev readme",
     "test": "echo NO TESTS",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "transpile": "babel src/index.js --out-file src/app.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run transpile && git add ."
+    }
   }
 }
