@@ -6,17 +6,15 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
-
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
-
 import MenuIcon from '@material-ui/icons/Menu';
+import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import TvIcon from '@material-ui/icons/Tv';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -69,6 +67,7 @@ Object.values(StickerListByCategory).forEach((stickerList) => {
 class PageBase extends React.Component {
     constructor(props) {
         super(props);
+
         this.board = React.createRef();
 
         this.state = {
@@ -76,7 +75,6 @@ class PageBase extends React.Component {
             currentBreakpoint: 'lg',
             layout: undefined,
             blocks: undefined,
-            isEditingMode: true,
             // SpeedDial
             isMenuOpen: false,
         };
@@ -133,6 +131,44 @@ class PageBase extends React.Component {
         }
     };
 
+    handleInsert = () => {
+        const { layout, blocks } = this.state;
+
+        this.setState({
+            layout: {
+                lg: [
+                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    ...layout.lg,
+                ],
+                md: [
+                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    ...layout.md,
+                ],
+                sm: [
+                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    ...layout.sm,
+                ],
+                xs: [
+                    { i: 'EmptySticker', x: 0, y: 0, w: 6, h: 6 },
+                    ...layout.xs,
+                ],
+                xxs: [
+                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    ...layout.xxs,
+                ],
+            },
+            blocks: [{ i: 'EmptySticker' }, ...blocks],
+        });
+    };
+
+    handleDelete = (id) => {
+        const { blocks } = this.state;
+
+        this.setState({
+            blocks: blocks.filter((chart) => chart.i !== id),
+        });
+    };
+
     readUserLayoutCallback = (statusCode, response) => {
         this.props.hideMessageSnackbar();
         switch (statusCode) {
@@ -162,7 +198,7 @@ class PageBase extends React.Component {
     };
 
     render() {
-        const { layout, blocks, isEditingMode, isMenuOpen } = this.state;
+        const { layout, blocks, isMenuOpen } = this.state;
         const { classes, theme, showDialog, messageSnackbar } = this.props;
 
         if (!layout || !blocks) {
@@ -184,7 +220,10 @@ class PageBase extends React.Component {
                             typeof StickerObject.Component === 'object'
                         ) {
                             return (
-                                <Sticker key={block.i}>
+                                <Sticker
+                                    key={block.i}
+                                    onChange={() => {}}
+                                    onDelete={() => this.handleDelete(block.i)}>
                                     <StickerObject.Component
                                         colors={theme.colors}
                                     />
@@ -205,6 +244,15 @@ class PageBase extends React.Component {
                         onOpen={this.handleOpenMenu}
                         open={isMenuOpen}
                         direction={'up'}>
+                        <SpeedDialAction
+                            icon={<AddIcon />}
+                            tooltipTitle={'Insert Sticker'}
+                            onClick={() => {
+                                this.handleInsert();
+                                this.board.current.setEditingMode(true);
+                            }}
+                        />
+
                         <SpeedDialAction
                             icon={<EditIcon />}
                             tooltipTitle={'Toggle Edit mode'}
