@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BarChart } from '@stickyboard/recharts';
-
+import MemoChart from './MemoChart';
+import {MemoIcon} from './MemoIcon';
 const lineChartData = [
     {
         index: 1,
@@ -72,16 +73,31 @@ const lineChartData = [
 
 function RechartsBarChart(props) {
     const { colors } = props;
+    const [isMemoOn, setMemoOn] = useState(false);
+    const [inputText, setInputText] = useState('');
+    const memoButtonClick = () => {
+        setMemoOn(!isMemoOn);
+    }
+    const onChange = (e) => {
+        setInputText(e.target.value);
+    }
 
     return (
-        <BarChart
-            data={lineChartData}
-            xAxisDataKey={'time'}
-            barDataKey={'visitors'}
-            barName={'Visitors'}
-            barColor={colors.colorArray[1]}
-        />
-    );
+        <>
+            {
+                !isMemoOn ?
+                <BarChart
+                    data={lineChartData}
+                    xAxisDataKey={'time'}
+                    barDataKey={'visitors'}
+                    barName={'Visitors'}
+                    barColor={colors.colorArray[1]}
+                /> :
+                <MemoChart text={inputText} onChange={onChange}/>
+            }
+            <MemoIcon onClick={memoButtonClick} />
+        </>
+    )
 }
 
 export default RechartsBarChart;

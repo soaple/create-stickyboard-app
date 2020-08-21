@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { LineChart } from '@stickyboard/recharts';
-
+import MemoChart from './MemoChart';
+import {MemoIcon} from './MemoIcon';
 const lineChartData = [
     {
         index: 1,
@@ -72,16 +73,33 @@ const lineChartData = [
 
 function RechartsLineChart(props) {
     const { colors } = props;
+    const [isMemoOn, setMemoOn] = useState(false);
+    const [inputText, setInputText] = useState('');
 
+    const memoButtonClick = () => {
+        setMemoOn(!isMemoOn);
+    }
+    const onChange = (e) => {
+        setInputText(e.target.value);
+    }
+    
     return (
-        <LineChart
-            data={lineChartData}
-            xAxisDataKey={'time'}
-            lineType={'linear'}
-            lineDataKey={'visitors'}
-            lineName={'Visitors'}
-            lineColor={colors.colorArray[0]}
-        />
+        <>
+            {
+                !isMemoOn ?
+                <LineChart
+                    data={lineChartData}
+                    xAxisDataKey={'time'}
+                    lineType={'linear'}
+                    lineDataKey={'visitors'}
+                    lineName={'Visitors'}
+                    lineColor={colors.colorArray[0]}
+                /> :
+                <MemoChart text={inputText} onChange={onChange}/>
+            }
+            <MemoIcon onClick={memoButtonClick}/>
+        </>
+
     );
 }
 
