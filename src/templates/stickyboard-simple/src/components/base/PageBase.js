@@ -1,34 +1,27 @@
 // src/components/base/PageBase.js
-
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
-
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
-
 import MenuIcon from '@material-ui/icons/Menu';
 import EditIcon from '@material-ui/icons/Edit';
 import TvIcon from '@material-ui/icons/Tv';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import AppsIcon from '@material-ui/icons/Apps';
 
 import { Board, Sticker } from '@stickyboard/core';
-
 import StickerListByCategory from 'components/sticker';
-
 import MessageSnackbar from 'components/ui/MessageSnackbar';
-
 import Const from 'constants/Const';
-
 const styles = (theme) => ({
     root: {
         backgroundColor: theme.colors.contentBackground,
@@ -53,7 +46,6 @@ const styles = (theme) => ({
         },
     },
 });
-
 // Generate Sticker dictionary
 let StickerDict = {};
 Object.values(StickerListByCategory).forEach((stickerList) => {
@@ -61,7 +53,6 @@ Object.values(StickerListByCategory).forEach((stickerList) => {
         StickerDict[StickerObject.Name] = StickerObject;
     });
 });
-
 class PageBase extends React.Component {
     constructor(props) {
         super(props);
@@ -72,41 +63,48 @@ class PageBase extends React.Component {
             currentBreakpoint: 'lg',
             layout: undefined,
             blocks: undefined,
-            isEditingMode: true,
+            isEditingMode: false,
             // SpeedDial
             isMenuOpen: false,
         };
     }
-
     componentDidMount() {
         this.setInitialLayout();
     }
-
     setInitialLayout = () => {
         this.setState({
             layout: this.props.initialLayout,
             blocks: this.props.initialBlocks,
         });
     };
-
     handleCloseMenu = () => {
         this.setState({ isMenuOpen: false });
     };
-
     handleOpenMenu = () => {
         this.setState({ isMenuOpen: true });
     };
-
     onLayoutChange = (newLayouts) => {
         this.setState({ layout: newLayouts });
         console.log(JSON.stringify(newLayouts));
     };
-
     onSaveLayout = () => {
         const { layout, blocks } = this.state;
         console.log(layout);
         console.log(blocks);
     };
+
+    handleInsert = () => {
+        const { blocks } = this.state;
+        this.setState({
+            blocks: blocks.concat({ i : "EmptySticker" }),
+        });
+    }
+    handleDelete = (id) => {
+        const { blocks } = this.state;
+        this.setState({
+            blocks: blocks.filter(chart => chart.i !== id)
+        });
+    }
 
     render() {
         const { layout, blocks, isEditingMode, isMenuOpen } = this.state;
@@ -115,7 +113,6 @@ class PageBase extends React.Component {
         if (!layout || !blocks) {
             return null;
         }
-
         return (
             <div className={classes.root}>
                 <Board
@@ -125,13 +122,13 @@ class PageBase extends React.Component {
                     onSaveLayout={this.onSaveLayout}>
                     {blocks.map((block, index) => {
                         const StickerObject = StickerDict[block.i];
-
                         if (
                             StickerObject &&
                             typeof StickerObject.Component === 'object'
                         ) {
                             return (
                                 <Sticker key={block.i}>
+                                    {isEditingMode && <DeleteIcon onClick = {() => this.handleDelete(block.i)} />}
                                     <StickerObject.Component
                                         colors={theme.colors}
                                     />
@@ -142,7 +139,6 @@ class PageBase extends React.Component {
                         }
                     })}
                 </Board>
-
                 <div className={classes.menuContainer}>
                     <SpeedDial
                         ariaLabel="SpeedDial"
@@ -152,14 +148,21 @@ class PageBase extends React.Component {
                         onOpen={this.handleOpenMenu}
                         open={isMenuOpen}
                         direction={'up'}>
+
+                        <SpeedDialAction
+                            icon={<AddIcon />}
+                            tooltipTitle={'insert Sticker'}
+                            onClick={() => this.handleInsert()}
+                        />
+
                         <SpeedDialAction
                             icon={<EditIcon />}
                             tooltipTitle={'Toggle Edit mode'}
                             onClick={() => {
+                                this.setState({isEditingMode : !isEditingMode})
                                 this.board.current.toggleEditingMode();
                             }}
                         />
-
                         <SpeedDialAction
                             icon={<TvIcon />}
                             tooltipTitle={'Toggle TV mode'}
@@ -167,7 +170,6 @@ class PageBase extends React.Component {
                                 this.board.current.toggleTvMode();
                             }}
                         />
-
                         <SpeedDialAction
                             icon={<AppsIcon />}
                             tooltipTitle={'Sticker List'}
@@ -177,7 +179,6 @@ class PageBase extends React.Component {
                         />
                     </SpeedDial>
                 </div>
-
                 {/* Message Snackbar */}
                 <MessageSnackbar
                     open={messageSnackbar.open}
@@ -187,7 +188,6 @@ class PageBase extends React.Component {
         );
     }
 }
-
 PageBase.propTypes = {
     // Style
     classes: PropTypes.object.isRequired,
@@ -197,5 +197,4 @@ PageBase.propTypes = {
     initialLayout: PropTypes.object.isRequired,
     initialBlocks: PropTypes.array.isRequired,
 };
-
 export default withStyles(styles, { withTheme: true })(PageBase);
