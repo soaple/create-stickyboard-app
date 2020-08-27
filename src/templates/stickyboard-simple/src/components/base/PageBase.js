@@ -73,6 +73,9 @@ class PageBase extends React.Component {
             blocks: undefined,
             // SpeedDial
             isMenuOpen: false,
+            //memo
+            description: {},
+
         };
     }
 
@@ -144,8 +147,19 @@ class PageBase extends React.Component {
         });
     };
 
+    descriptionChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({
+            description: {
+                ...this.state.description,
+                [name]: value
+            }
+        })
+    }
+
     render() {
-        const { layout, blocks, isMenuOpen } = this.state;
+        const { layout, blocks, isMenuOpen, description } = this.state;
         const { classes, theme, showDialog, messageSnackbar } = this.props;
 
         if (!layout || !blocks) {
@@ -169,6 +183,9 @@ class PageBase extends React.Component {
                                 <Sticker
                                     key={block.i}
                                     onChange={() => {}}
+                                    name={block.i}
+                                    description={description}
+                                    descriptionChange={this.descriptionChange}
                                     onDelete={() => this.handleDelete(block.i)}>
                                     <StickerObject.Component
                                         colors={theme.colors}
