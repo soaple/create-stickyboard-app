@@ -214,7 +214,6 @@ class PageBase extends React.Component {
                     onSaveLayout={this.onSaveLayout}>
                     {blocks.map((block, index) => {
                         const StickerObject = StickerDict[block.i];
-
                         if (
                             StickerObject &&
                             typeof StickerObject.Component === 'object'
@@ -222,6 +221,8 @@ class PageBase extends React.Component {
                             return (
                                 <Sticker
                                     key={block.i}
+                                    name={StickerObject.Name}
+                                    description={StickerObject.Description}
                                     onChange={() => {}}
                                     onDelete={() => this.handleDelete(block.i)}>
                                     <StickerObject.Component

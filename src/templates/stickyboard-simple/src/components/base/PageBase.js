@@ -168,9 +168,9 @@ class PageBase extends React.Component {
                             return (
                                 <Sticker
                                     key={block.i}
-                                    onChange={() => {}}
                                     name={StickerObject.Name}
                                     description={StickerObject.Description}
+                                    onChange={() => {}}
                                     onDelete={() => this.handleDelete(block.i)}>
                                     <StickerObject.Component
                                         colors={theme.colors}
