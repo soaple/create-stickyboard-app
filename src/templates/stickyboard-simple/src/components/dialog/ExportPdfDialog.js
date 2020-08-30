@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,16 +6,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import dom2pdf from "../pdf/dom2pdf";
+import ConfigSelect from "../pdf/ConfigSelect";
+import ConfigTextField from "../pdf/ConfigTextField";
+import { DEFAULT_CONFIG, CONFIG } from "../pdf/constant";
 
 const useStyles = makeStyles((theme) => ({
   dialogContentRoot: {
     padding: '0px 24px',
-  },
-  tabsRoot: {
-    position: 'sticky',
-    webkitPosition: '-webkit-sticky',
-    top: 0,
-    zIndex: 1600,
     backgroundColor: theme.palette.background.paper,
   },
 }));
@@ -27,11 +23,14 @@ function ExportPdfDialog(props) {
   const theme = useTheme();
   const { open, params, callback, onClose } = props;
   const { title, message, cancelButtonText, confirmButtonText } = params;
+  const [filename, setFilename] = useState(DEFAULT_CONFIG.filename);
+  const [orientation, setOrientation] = useState(DEFAULT_CONFIG.orientation);
+  const [pageFormat, setPageFormat] = useState(DEFAULT_CONFIG.pageFormat);
 
   return (
     <Dialog
       fullWidth
-      maxWidth="xl"
+      maxWidth="xs"
       scroll="paper"
       open={open}
       onClose={onClose}
@@ -44,7 +43,19 @@ function ExportPdfDialog(props) {
       <Divider />
 
       <DialogContent className={classes.dialogContentRoot}>
-        Export to PDF feature will be added.
+        <ConfigTextField text={filename} setText={setFilename} label="Filename" />
+        <ConfigSelect
+          config={CONFIG.orientation}
+          value={orientation}
+          setValue={setOrientation}
+          label="Orientation"
+        />
+        <ConfigSelect
+          config={CONFIG.pageFormat}
+          value={pageFormat}
+          setValue={setPageFormat}
+          label="Page format"
+        />
       </DialogContent>
 
       <Divider />
@@ -55,14 +66,24 @@ function ExportPdfDialog(props) {
         </Button>
         <Button
           onClick={() => {
-            if (callback && typeof callback === 'function') {
-              callback();
-            }
-            onClose();
+            dom2pdf({
+              target: '.react-grid-layout',
+              pdfOption: {
+                orientation,
+                unit: "mm",
+                format: pageFormat,
+                compress: true,
+                title: filename
+              },
+              imageOption: {
+                format: "PNG",
+                compress: "FAST"
+              }
+            });
           }}
           color="primary"
           autoFocus>
-          {confirmButtonText || 'OK'}
+          {confirmButtonText || 'Download PDF'}
         </Button>
       </DialogActions>
     </Dialog>
