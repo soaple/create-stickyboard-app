@@ -75,7 +75,7 @@ class PageBase extends React.Component {
             currentBreakpoint: 'lg',
             layout: undefined,
             blocks: undefined,
-            EmptyStickerId:"EmptySticker" + uuid(),
+            EmptyStickerId: uuid(),
             // SpeedDial
             isMenuOpen: false,
         };
@@ -102,23 +102,23 @@ class PageBase extends React.Component {
 
     onLayoutChange = (newLayouts) => {
         this.setState({ layout: newLayouts });
-        // console.log(JSON.stringify(newLayouts));
+        console.log(JSON.stringify(newLayouts));
     };
 
     onSaveLayout = () => {
         const { layout, blocks } = this.state;
-        // console.log(layout);
-        // console.log(blocks);
+        console.log(layout);
+        console.log(blocks);
     };
 
     handleInsert = () => {
         const {layout, blocks, EmptyStickerId} = this.state;
         this.setState(
             {
-            EmptyStickerId: "EmptySticker" + uuid(),
+            EmptyStickerId: uuid(),
             layout: {
                 lg: [
-                    {i :EmptyStickerId , x: 0, y: 0, w: 4, h: 6 },
+                    {i : EmptyStickerId , x: 0, y: 0, w: 4, h: 6 },
                     ...layout.lg,
                 ],
                 md: [
@@ -130,7 +130,7 @@ class PageBase extends React.Component {
                     ...layout.sm,
                 ],
                 xs: [
-                    {i :EmptyStickerId , x: 0, y: 0, w: 6, h: 6 },
+                    {i : EmptyStickerId , x: 0, y: 0, w: 6, h: 6 },
                     ...layout.xs,
                 ],
                 xxs: [
@@ -146,7 +146,7 @@ class PageBase extends React.Component {
         const { blocks } = this.state;
         console.log(id)
         this.setState({
-            blockId: blocks.filter((chart) => chart.i !== id),
+            blocks: blocks.filter((chart) => chart.i !== id),
         });
     };
 
