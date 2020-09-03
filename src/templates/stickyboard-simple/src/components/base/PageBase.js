@@ -27,7 +27,7 @@ import MessageSnackbar from 'components/ui/MessageSnackbar';
 
 import Const from 'constants/Const';
 
-import  {  uuid  }  from  'uuidv4' ;
+import  { uuid } from 'uuidv4' ;
 import loadable from '@loadable/component';
 const EmptySticker = loadable(() => import('../sticker/EmptySticker'));
 
@@ -75,7 +75,6 @@ class PageBase extends React.Component {
             currentBreakpoint: 'lg',
             layout: undefined,
             blocks: undefined,
-            EmptyStickerId: uuid(),
             // SpeedDial
             isMenuOpen: false,
         };
@@ -112,39 +111,39 @@ class PageBase extends React.Component {
     };
 
     handleInsert = () => {
-        const {layout, blocks, EmptyStickerId} = this.state;
+        const {layout, blocks} = this.state;
+        const emptyStickerId = uuid();
         this.setState(
             {
-            EmptyStickerId: uuid(),
             layout: {
                 lg: [
-                    {i : EmptyStickerId , x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
                     ...layout.lg,
                 ],
                 md: [
-                    {i : EmptyStickerId, x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId, x: 0, y: 0, w: 4, h: 6 },
                     ...layout.md,
                 ],
                 sm: [
-                    {i : EmptyStickerId , x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
                     ...layout.sm,
                 ],
                 xs: [
-                    {i : EmptyStickerId , x: 0, y: 0, w: 6, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 6, h: 6 },
                     ...layout.xs,
                 ],
                 xxs: [
-                    {i : EmptyStickerId , x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
                     ...layout.xxs,
                 ],
             },
-            blocks: [{i : EmptyStickerId } , ...blocks],
+            blocks: [{i : emptyStickerId } , ...blocks],
         })
     };
 
     handleDelete = (id) => {
         const { blocks } = this.state;
-        console.log(id)
+
         this.setState({
             blocks: blocks.filter((chart) => chart.i !== id),
         });
@@ -166,7 +165,6 @@ class PageBase extends React.Component {
                     onLayoutChange={this.onLayoutChange}
                     onSaveLayout={this.onSaveLayout}>
                     {blocks.map((block, index) => {
-                        const i = block.i ? block.i : block.i + this.state.blockId;
                         const StickerObject = StickerDict[block.i] ? StickerDict[block.i] :{
                             Name: "EmptySticker",
                             Description: 'EmptySticker sample',
@@ -178,7 +176,7 @@ class PageBase extends React.Component {
                         ) {
                             return (
                                 <Sticker
-                                    key={i}
+                                    key={block.i}
                                     name={StickerObject.Name}
                                     description={StickerObject.Description}
                                     onChange={() => {}}
