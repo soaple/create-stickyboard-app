@@ -1,7 +1,6 @@
 // src/components/sticker/index.js
 
 import loadable from '@loadable/component';
-
 // Recharts
 const RechartsLineChart = loadable(() => import('./RechartsLineChart'));
 const RechartsBarChart = loadable(() => import('./RechartsBarChart'));

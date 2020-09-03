@@ -27,6 +27,10 @@ import MessageSnackbar from 'components/ui/MessageSnackbar';
 
 import Const from 'constants/Const';
 
+import  { uuid } from 'uuidv4' ;
+import loadable from '@loadable/component';
+const EmptySticker = loadable(() => import('../sticker/EmptySticker'));
+
 const styles = (theme) => ({
     root: {
         backgroundColor: theme.colors.contentBackground,
@@ -107,33 +111,34 @@ class PageBase extends React.Component {
     };
 
     handleInsert = () => {
-        const { layout, blocks } = this.state;
-
-        this.setState({
+        const {layout, blocks} = this.state;
+        const emptyStickerId = uuid();
+        this.setState(
+            {
             layout: {
                 lg: [
-                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
                     ...layout.lg,
                 ],
                 md: [
-                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId, x: 0, y: 0, w: 4, h: 6 },
                     ...layout.md,
                 ],
                 sm: [
-                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
                     ...layout.sm,
                 ],
                 xs: [
-                    { i: 'EmptySticker', x: 0, y: 0, w: 6, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 6, h: 6 },
                     ...layout.xs,
                 ],
                 xxs: [
-                    { i: 'EmptySticker', x: 0, y: 0, w: 4, h: 6 },
+                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
                     ...layout.xxs,
                 ],
             },
-            blocks: [{ i: 'EmptySticker' }, ...blocks],
-        });
+            blocks: [{i : emptyStickerId } , ...blocks],
+        })
     };
 
     handleDelete = (id) => {
@@ -160,7 +165,11 @@ class PageBase extends React.Component {
                     onLayoutChange={this.onLayoutChange}
                     onSaveLayout={this.onSaveLayout}>
                     {blocks.map((block, index) => {
-                        const StickerObject = StickerDict[block.i];
+                        const StickerObject = StickerDict[block.i] ? StickerDict[block.i] :{
+                            Name: "EmptySticker",
+                            Description: 'EmptySticker sample',
+                            Component: EmptySticker,
+                    };
                         if (
                             StickerObject &&
                             typeof StickerObject.Component === 'object'
