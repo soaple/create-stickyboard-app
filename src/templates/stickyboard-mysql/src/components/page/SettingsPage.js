@@ -3,8 +3,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-import _ from 'underscore'
-
 import ApiManager from '../../network/ApiManager';
 import StatusCode from '../../network/StatusCode';
 import CookieManager from '../../network/CookieManager';

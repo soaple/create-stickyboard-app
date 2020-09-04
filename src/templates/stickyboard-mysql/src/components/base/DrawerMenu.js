@@ -3,8 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import _ from 'underscore';
-
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -21,7 +19,7 @@ import SidebarCategoryName from '../../sidebar/SidebarCategoryName';
 
 import Const from '../../constants/Const';
 
-const styles = theme => ({
+const styles = (theme) => ({
     drawerContainer: {
         height: '100%',
     },
@@ -64,16 +62,15 @@ const styles = theme => ({
 });
 
 class DrawerMenu extends React.Component {
-
-    constructor (props) {
-        super(props)
+    constructor(props) {
+        super(props);
 
         this.state = {
             permittedMenuDict: {},
-        }
+        };
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.updatePermittedMenuDict(this.props);
     }
 
@@ -88,11 +85,11 @@ class DrawerMenu extends React.Component {
         } else {
             this.updatePermittedMenuList(props.permissionKeyArray);
         }
-    }
+    };
 
     onSignOutBtnClicked = () => {
-        console.log('clicked')
-    }
+        console.log('clicked');
+    };
 
     updatePermittedMenuList = (permissionKeyArray) => {
         var permittedMenuDict = {};
@@ -102,7 +99,10 @@ class DrawerMenu extends React.Component {
 
             var categoryMenuArray = [];
             categoryMenus.map((menu) => {
-                if (!menu.need_permission || _.contains(permissionKeyArray, menu.url)) {
+                if (
+                    !menu.need_permission ||
+                    permissionKeyArray.includes(menu.url)
+                ) {
                     categoryMenuArray.push(menu);
                 }
             });
@@ -113,9 +113,9 @@ class DrawerMenu extends React.Component {
         });
 
         this.setState({ permittedMenuDict: permittedMenuDict });
-    }
+    };
 
-    render () {
+    render() {
         const { classes, theme } = this.props;
         const { permittedMenuDict } = this.state;
 
@@ -130,40 +130,59 @@ class DrawerMenu extends React.Component {
                             <Divider />
                             <List
                                 className={classes.menuItemList}
-                                subheader={categoryMenus.length > 1 ?
-                                    <ListSubheader
-                                        className={classes.menuCategory}
-                                        disableSticky={true}>
-                                        {SidebarCategoryName[sidebarCategoryKey]}
-                                    </ListSubheader> : null}>
+                                subheader={
+                                    categoryMenus.length > 1 ? (
+                                        <ListSubheader
+                                            className={classes.menuCategory}
+                                            disableSticky={true}>
+                                            {
+                                                SidebarCategoryName[
+                                                    sidebarCategoryKey
+                                                ]
+                                            }
+                                        </ListSubheader>
+                                    ) : null
+                                }>
                                 {categoryMenus.map((menu) => {
-                                    let isSelected = menu.url === window.location.pathname;
+                                    let isSelected =
+                                        menu.url === window.location.pathname;
 
                                     return (
                                         <ListItem
                                             button
                                             key={menu.value}
-                                            className={isSelected ? classes.menuItemSelected : classes.menuItem}
-                                            component='a'
+                                            className={
+                                                isSelected
+                                                    ? classes.menuItemSelected
+                                                    : classes.menuItem
+                                            }
+                                            component="a"
                                             href={menu.url}>
                                             <ListItemIcon
                                                 color="inherit"
-                                                className={classes.menuItemIcon}>
+                                                className={
+                                                    classes.menuItemIcon
+                                                }>
                                                 {menu.icon}
                                             </ListItemIcon>
                                             <ListItemText
                                                 disableTypography={true}
                                                 primary={menu.title}
-                                                className={isSelected ? classes.menuItemTextSelected : classes.menuItemText}/>
+                                                className={
+                                                    isSelected
+                                                        ? classes.menuItemTextSelected
+                                                        : classes.menuItemText
+                                                }
+                                            />
                                         </ListItem>
-                                    )
+                                    );
                                 })}
                             </List>
                         </div>
-                    )
+                    );
                 })}
             </div>
-        )
+        );
     }
 }
 

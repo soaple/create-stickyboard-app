@@ -57,8 +57,7 @@
         "sequelize": "^5.21.8",
         "sha256": "^0.2.0",
         "styled-components": "^4.4.1",
-        "tls": "0.0.1",
-        "underscore": "^1.10.2"
+        "tls": "0.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.9.6",
