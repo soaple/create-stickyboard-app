@@ -18,6 +18,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import TvIcon from '@material-ui/icons/Tv';
 import AppsIcon from '@material-ui/icons/Apps';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 
 import { Board, Sticker } from '@stickyboard/core';
 
@@ -179,7 +180,7 @@ class PageBase extends React.Component {
                                     key={block.i}
                                     name={StickerObject.Name}
                                     description={StickerObject.Description}
-                                    onChange={() => {}}
+                                    onChange={() => { }}
                                     onDelete={() => this.handleDelete(block.i)}>
                                     <StickerObject.Component
                                         colors={theme.colors}
@@ -231,6 +232,14 @@ class PageBase extends React.Component {
                             tooltipTitle={'Sticker List'}
                             onClick={() => {
                                 showDialog('StickerListDialog');
+                            }}
+                        />
+
+                        <SpeedDialAction
+                            icon={<PhotoLibraryIcon />}
+                            tooltipTitle={'Export to Image'}
+                            onClick={() => {
+                                showDialog('ExportImageDialog');
                             }}
                         />
                     </SpeedDial>

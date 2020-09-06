@@ -5,6 +5,7 @@ import loadable from '@loadable/component';
 const StickerListDialog = loadable(() => import('./StickerListDialog'));
 const AlertDialog = loadable(() => import('./AlertDialog'));
 const ConfirmDialog = loadable(() => import('./ConfirmDialog'));
+const ExportImageDialog = loadable(() => import('./ExportImageDialog'));
 
 export default {
     StickerListDialog: {
@@ -21,5 +22,10 @@ export default {
         Name: 'ConfirmDialog',
         Description: 'ConfirmDialog sample',
         Component: ConfirmDialog,
+    },
+    ExportImageDialog: {
+        Name: 'ExportImageDialog',
+        Description: 'Export dashboard to Image',
+        Component: ExportImageDialog,
     },
 }
