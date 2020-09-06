@@ -7,8 +7,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import dom2image from "../image/dom2image";
-import ConfigTextField from "../pdf/ConfigTextField";
-import ConfigSelect from "../pdf/ConfigSelect";
+import ConfigTextField from "../image/ConfigTextField";
+import ConfigSelect from "../image/ConfigSelect";
 import { DEFAULT_CONFIG, CONFIG } from "../image/constant";
 
 const useStyles = makeStyles((theme) => ({
