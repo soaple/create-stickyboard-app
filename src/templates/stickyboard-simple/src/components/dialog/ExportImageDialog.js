@@ -7,9 +7,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import dom2image from "../image/dom2image";
-import ConfigSelect from "../pdf/ConfigSelect";
 import ConfigTextField from "../pdf/ConfigTextField";
-import { DEFAULT_CONFIG, CONFIG } from "../pdf/constant";
+import ConfigSelect from "../pdf/ConfigSelect";
+import { DEFAULT_CONFIG, CONFIG } from "../image/constant";
 
 const useStyles = makeStyles((theme) => ({
   dialogContentRoot: {
@@ -18,14 +18,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ExportPdfDialog(props) {
+function ExportImageDialog(props) {
   const classes = useStyles();
   const theme = useTheme();
   const { open, params, callback, onClose } = props;
   const { title, message, cancelButtonText, confirmButtonText } = params;
   const [filename, setFilename] = useState(DEFAULT_CONFIG.filename);
-  const [orientation, setOrientation] = useState(DEFAULT_CONFIG.orientation);
-  const [pageFormat, setPageFormat] = useState(DEFAULT_CONFIG.pageFormat);
+  const [filenameExtension, setFilenameExtension] = useState(DEFAULT_CONFIG.filenameExtension);
 
   return (
     <Dialog
@@ -34,10 +33,10 @@ function ExportPdfDialog(props) {
       scroll="paper"
       open={open}
       onClose={onClose}
-      aria-labelledby="export-pdf-dialog-title"
-      aria-describedby="export-pdf-dialog-description">
-      <DialogTitle id="export-pdf-dialog-title">
-        {'Export to PDF'}
+      aria-labelledby="export-image-dialog-title"
+      aria-describedby="export-image-dialog-description">
+      <DialogTitle id="export-image-dialog-title">
+        {'Export to Image'}
       </DialogTitle>
 
       <Divider />
@@ -45,16 +44,10 @@ function ExportPdfDialog(props) {
       <DialogContent className={classes.dialogContentRoot}>
         <ConfigTextField text={filename} setText={setFilename} label="Filename" />
         <ConfigSelect
-          config={CONFIG.orientation}
-          value={orientation}
-          setValue={setOrientation}
-          label="Orientation"
-        />
-        <ConfigSelect
-          config={CONFIG.pageFormat}
-          value={pageFormat}
-          setValue={setPageFormat}
-          label="Page format"
+          config={CONFIG.filenameExtension}
+          value={filenameExtension}
+          setValue={setFilenameExtension}
+          label="Filename extension"
         />
       </DialogContent>
 
@@ -66,15 +59,19 @@ function ExportPdfDialog(props) {
         </Button>
         <Button
           onClick={() => {
-            dom2image({});
+            dom2image({
+              target: '.react-grid-layout',
+              filenameExtension,
+              filename
+            });
           }}
           color="primary"
           autoFocus>
-          {confirmButtonText || 'Download PDF'}
+          {confirmButtonText || 'Download Image'}
         </Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-export default ExportPdfDialog;
+export default ExportImageDialog;

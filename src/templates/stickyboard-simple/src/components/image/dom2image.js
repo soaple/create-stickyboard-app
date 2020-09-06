@@ -1,14 +1,31 @@
 import domToImage from "dom-to-image";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
+import { DEFAULT_CONFIG, MESSAGE } from './constant.js';
+
+const imageFormatToMethod = {
+  svg: 'toSvg',
+  png: 'toPng',
+  jpeg: 'toJpeg',
+}
 
 const dom2image = ({
-  filename = 'dashboard'
+  target,
+  filename = `${DEFAULT_CONFIG.filename}`,
+  filenameExtension = `${DEFAULT_CONFIG.filenameExtension}`
 }) => {
-  const node = document.querySelector('.react-grid-layout');
+  const targetEl = typeof target === "string" ?
+    document.querySelector(target) :
+    target;
 
-  domToImage.toBlob(node)
-  .then((blob) => {
-    saveAs(blob, `${filename}`.png);
+  if (!(targetEl instanceof Element)) {
+    throw new Error(MESSAGE.error.targetNotDom);
+  }
+
+  filename = filename === "" ? DEFAULT_CONFIG.filename : filename;
+
+    domToImage[imageFormatToMethod[filenameExtension]](targetEl)
+    .then((dataUrl) => {
+      saveAs(dataUrl, `${filename}.${filenameExtension}`);
     })
     .catch((err) => {
       throw new Error(err);
