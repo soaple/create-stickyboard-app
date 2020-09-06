@@ -47,7 +47,7 @@
         "request": "^2.88.2",
         "styled-components": "^4.4.1",
         "tls": "0.0.1",
-        "underscore": "^1.10.2"
+        "uuidv4": "^6.2.3"
     },
     "devDependencies": {
         "@babel/core": "^7.9.6",

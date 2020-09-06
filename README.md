@@ -12,6 +12,9 @@ Create StickyBoard app
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+* [Usage](#usage)
+* [Commands](#commands)
+<!-- tocstop -->
 # Usage
 <!-- usage -->
 ```sh-session
@@ -19,7 +22,19 @@ $ npm install -g create-stickyboard-app
 $ create-stickyboard-app COMMAND
 running command...
 $ create-stickyboard-app (-v|--version|version)
-create-stickyboard-app/0.1.13 darwin-x64 node-v12.8.0
+create-stickyboard-app/0.1.13 win32-x64 node-v12.18.3
+$ create-stickyboard-app --help [COMMAND]
+USAGE
+  $ create-stickyboard-app COMMAND
+...
+```
+<!-- usagestop -->
+```sh-session
+$ npm install -g create-stickyboard-app
+$ create-stickyboard-app COMMAND
+running command...
+$ create-stickyboard-app (-v|--version|version)
+create-stickyboard-app/0.1.13 darwin-x64 node-v12.8.1
 $ create-stickyboard-app --help [COMMAND]
 USAGE
   $ create-stickyboard-app COMMAND
@@ -28,5 +43,7 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+
+<!-- commandsstop -->
 
 <!-- commandsstop -->
