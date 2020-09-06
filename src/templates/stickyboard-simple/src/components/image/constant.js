@@ -6,7 +6,8 @@ export const MESSAGE = {
 
 export const DEFAULT_CONFIG = {
   filename: "dashboard",
-  filenameExtension: 'png'
+  filenameExtension: 'png',
+  useThemeBackgroundColor: true
 };
 
 export const CONFIG = {

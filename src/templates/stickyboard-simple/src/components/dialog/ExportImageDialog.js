@@ -9,6 +9,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import dom2image from "../image/dom2image";
 import ConfigTextField from "../image/ConfigTextField";
 import ConfigSelect from "../image/ConfigSelect";
+import ConfigCheckBox from "../image/ConfigCheckBox";
 import { DEFAULT_CONFIG, CONFIG } from "../image/constant";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +26,7 @@ function ExportImageDialog(props) {
   const { title, message, cancelButtonText, confirmButtonText } = params;
   const [filename, setFilename] = useState(DEFAULT_CONFIG.filename);
   const [filenameExtension, setFilenameExtension] = useState(DEFAULT_CONFIG.filenameExtension);
+  const [useThemeBackgroundColor, setUseThemeBackgroundColor] = useState(DEFAULT_CONFIG.useThemeBackgroundColor);
 
   return (
     <Dialog
@@ -48,6 +50,11 @@ function ExportImageDialog(props) {
           value={filenameExtension}
           setValue={setFilenameExtension}
           label="Filename extension"
+        />
+        <ConfigCheckBox
+          value={useThemeBackgroundColor}
+          setValue={setUseThemeBackgroundColor}
+          label="Set background color to theme background color"
         />
       </DialogContent>
 
