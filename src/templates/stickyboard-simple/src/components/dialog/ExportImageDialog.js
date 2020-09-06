@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import dom2pdf from "../pdf/dom2pdf";
+import dom2image from "../image/dom2image";
 import ConfigSelect from "../pdf/ConfigSelect";
 import ConfigTextField from "../pdf/ConfigTextField";
 import { DEFAULT_CONFIG, CONFIG } from "../pdf/constant";
@@ -66,20 +66,7 @@ function ExportPdfDialog(props) {
         </Button>
         <Button
           onClick={() => {
-            dom2pdf({
-              target: '.react-grid-layout',
-              pdfOption: {
-                orientation,
-                unit: "mm",
-                format: pageFormat,
-                compress: true,
-                title: filename
-              },
-              imageOption: {
-                format: "PNG",
-                compress: "FAST"
-              }
-            });
+            dom2image({});
           }}
           color="primary"
           autoFocus>
