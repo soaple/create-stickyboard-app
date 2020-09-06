@@ -6,6 +6,7 @@ const StickerListDialog = loadable(() => import('./StickerListDialog'));
 const AlertDialog = loadable(() => import('./AlertDialog'));
 const ConfirmDialog = loadable(() => import('./ConfirmDialog'));
 const ExportPdfDialog = loadable(() => import('./ExportPdfDialog'));
+const ExportImageDialog = loadable(() => import('./ExportImageDialog'));
 
 export default {
     StickerListDialog: {
@@ -27,5 +28,10 @@ export default {
         Name: 'ExportPdfDialog',
         Description: 'Export dashboard to PDF',
         Component: ExportPdfDialog,
+    },
+    ExportImageDialog: {
+        Name: 'ExportImageDialog',
+        Description: 'Export dashboard to Image',
+        Component: ExportImageDialog,
     },
 }

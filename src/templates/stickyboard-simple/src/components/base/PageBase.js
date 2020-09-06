@@ -19,6 +19,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import TvIcon from '@material-ui/icons/Tv';
 import AppsIcon from '@material-ui/icons/Apps';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 
 import { Board, Sticker } from '@stickyboard/core';
 
@@ -231,6 +232,14 @@ class PageBase extends React.Component {
                             tooltipTitle={'Export to PDF'}
                             onClick={() => {
                                 showDialog('ExportPdfDialog');
+                            }}
+                        />
+
+                        <SpeedDialAction
+                            icon={<PhotoLibraryIcon />}
+                            tooltipTitle={'Export to Image'}
+                            onClick={() => {
+                                showDialog('ExportImageDialog');
                             }}
                         />
                     </SpeedDial>
