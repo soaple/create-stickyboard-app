@@ -66,10 +66,16 @@ function ExportImageDialog(props) {
         </Button>
         <Button
           onClick={() => {
+            let backgroundColor = null;
+            if(useThemeBackgroundColor) {
+              backgroundColor = theme.colors.contentBackground;
+            };
+
             dom2image({
               target: '.react-grid-layout',
               filenameExtension,
-              filename
+              filename,
+              backgroundColor
             });
           }}
           color="primary"
