@@ -8,8 +8,6 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const stickyboardConfig = require('./stickyboard.config');
-
 const NODE_ENV = process.env.NODE_ENV || 'production';
 const isProductionMode = NODE_ENV === 'production';
 const isWebpackDevServerMode = process.env.WEBPACK_DEV_SERVER_MODE === 'true';
@@ -19,8 +17,24 @@ console.log(`isProductionMode: ${isProductionMode}`);
 console.log(`isWebpackDevServerMode: ${isWebpackDevServerMode}`);
 console.log('===================================================\n');
 
+// Load .env file
+const envFilePath = isProductionMode ? '.env.production' : '.env.development';
+const envLoadResult = require('dotenv').config({ path: envFilePath });
+if (envLoadResult.error) {
+    console.log(envLoadResult.error);
+} else {
+    console.log(`env file '${envFilePath}' loaded successfully.\n`);
+    if (!isProductionMode) {
+        console.log('[BACK-END]', envLoadResult.parsed);
+    }
+}
+
+// Load StickyBoard config
+const stickyboardConfig = require('./stickyboard.config');
 console.log(`stickyboard.config env variables are loaded successfully.`);
-console.log('[FRONT-END]', stickyboardConfig.env, '\n');
+if (!isProductionMode) {
+    console.log('[FRONT-END]', stickyboardConfig.env, '\n');
+}
 
 const config = {
     mode: NODE_ENV,
@@ -94,7 +108,17 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-        new webpack.DefinePlugin(stickyboardConfig.env),
+        new webpack.DefinePlugin(
+            Object.keys(stickyboardConfig.env).reduce((acc, envKey) => {
+                const value = stickyboardConfig.env[envKey];
+                if (typeof value === 'number') {
+                    acc[`process.env.${envKey}`] = value;
+                } else {
+                    acc[`process.env.${envKey}`] = JSON.stringify(value);
+                }
+                return acc;
+            }, {})
+        ),
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new HtmlWebpackPlugin({
