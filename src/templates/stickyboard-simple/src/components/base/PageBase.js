@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
@@ -27,10 +28,6 @@ import StickerListByCategory from 'components/sticker';
 import MessageSnackbar from 'components/ui/MessageSnackbar';
 
 import Const from 'constants/Const';
-
-import  { uuid } from 'uuidv4' ;
-import loadable from '@loadable/component';
-const EmptySticker = loadable(() => import('../sticker/EmptySticker'));
 
 const styles = (theme) => ({
     root: {
@@ -74,8 +71,8 @@ class PageBase extends React.Component {
         this.state = {
             // React Grid Layout
             currentBreakpoint: 'lg',
-            layout: undefined,
-            blocks: undefined,
+            layouts: undefined,
+            stickers: undefined,
             // SpeedDial
             isMenuOpen: false,
         };
@@ -86,9 +83,11 @@ class PageBase extends React.Component {
     }
 
     setInitialLayout = () => {
+        const { initialLayouts, initialStickers } = this.props;
+
         this.setState({
-            layout: this.props.initialLayout,
-            blocks: this.props.initialBlocks,
+            layouts: initialLayouts,
+            stickers: initialStickers,
         });
     };
 
@@ -101,60 +100,88 @@ class PageBase extends React.Component {
     };
 
     onLayoutChange = (newLayouts) => {
-        this.setState({ layout: newLayouts });
+        this.setState({ layouts: newLayouts });
         console.log(JSON.stringify(newLayouts));
     };
 
     onSaveLayout = () => {
-        const { layout, blocks } = this.state;
-        console.log(layout);
-        console.log(blocks);
+        const { layouts, stickers } = this.state;
+        console.log(layouts);
+        console.log(stickers);
     };
 
     handleInsert = () => {
-        const {layout, blocks} = this.state;
-        const emptyStickerId = uuid();
-        this.setState(
-            {
-            layout: {
-                lg: [
-                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
-                    ...layout.lg,
-                ],
-                md: [
-                    {i : emptyStickerId, x: 0, y: 0, w: 4, h: 6 },
-                    ...layout.md,
-                ],
-                sm: [
-                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
-                    ...layout.sm,
-                ],
-                xs: [
-                    {i : emptyStickerId , x: 0, y: 0, w: 6, h: 6 },
-                    ...layout.xs,
-                ],
-                xxs: [
-                    {i : emptyStickerId , x: 0, y: 0, w: 4, h: 6 },
-                    ...layout.xxs,
-                ],
-            },
-            blocks: [{i : emptyStickerId } , ...blocks],
-        })
-    };
+        const { layouts, stickers } = this.state;
 
-    handleDelete = (id) => {
-        const { blocks } = this.state;
+        const emptyStickerId = uuidv4();
+        const emptyStickerLayoutItem = {
+            i: emptyStickerId,
+            x: 0,
+            y: 0,
+            w: 4,
+            h: 6,
+        };
+        const emptySticker = {
+            i: emptyStickerId,
+            name: 'Empty',
+        };
 
         this.setState({
-            blocks: blocks.filter((chart) => chart.i !== id),
+            layouts: {
+                lg: [emptyStickerLayoutItem, ...layouts.lg],
+                md: [emptyStickerLayoutItem, ...layouts.md],
+                sm: [emptyStickerLayoutItem, ...layouts.sm],
+                xs: [emptyStickerLayoutItem, ...layouts.xs],
+                xxs: [emptyStickerLayoutItem, ...layouts.xxs],
+            },
+            stickers: [emptySticker, ...stickers],
+        });
+    };
+
+    onClickChange = (sticker) => {
+        const { showDialog } = this.props;
+
+        showDialog(
+            'StickerListDialog',
+            {
+                currentStickerName: sticker.name,
+            },
+            (selectedStickerName) => {
+                this.handleChangeStickerContent(sticker.i, selectedStickerName);
+            }
+        );
+    };
+
+    handleChangeStickerContent = (stickerId, selectedStickerName) => {
+        this.setState((prevState) => ({
+            stickers: prevState.stickers.map((sticker) => {
+                if (sticker.i === stickerId) {
+                    return {
+                        i: stickerId,
+                        name: selectedStickerName,
+                    };
+                } else {
+                    return sticker;
+                }
+            }),
+        }));
+    };
+
+    handleDelete = (targetStickerId) => {
+        const { stickers } = this.state;
+
+        this.setState({
+            stickers: stickers.filter(
+                (sticker) => sticker.i !== targetStickerId
+            ),
         });
     };
 
     render() {
-        const { layout, blocks, isMenuOpen } = this.state;
+        const { layouts, stickers, isMenuOpen } = this.state;
         const { classes, theme, showDialog, messageSnackbar } = this.props;
 
-        if (!layout || !blocks) {
+        if (!layouts || !stickers) {
             return null;
         }
 
@@ -162,26 +189,28 @@ class PageBase extends React.Component {
             <div className={classes.root}>
                 <Board
                     ref={this.board}
-                    layouts={layout}
+                    layouts={layouts}
                     onLayoutChange={this.onLayoutChange}
                     onSaveLayout={this.onSaveLayout}>
-                    {blocks.map((block, index) => {
-                        const StickerObject = StickerDict[block.i] ? StickerDict[block.i] :{
-                            Name: "EmptySticker",
-                            Description: 'EmptySticker sample',
-                            Component: EmptySticker,
-                    };
+                    {stickers.map((sticker, index) => {
+                        const StickerObject =
+                            StickerDict[sticker.name] ?? StickerDict['Empty'];
+
                         if (
                             StickerObject &&
                             typeof StickerObject.Component === 'object'
                         ) {
                             return (
                                 <Sticker
-                                    key={block.i}
+                                    key={sticker.i}
                                     name={StickerObject.Name}
                                     description={StickerObject.Description}
-                                    onChange={() => { }}
-                                    onDelete={() => this.handleDelete(block.i)}>
+                                    onChange={() => {
+                                        this.onClickChange(sticker);
+                                    }}
+                                    onDelete={() =>
+                                        this.handleDelete(sticker.i)
+                                    }>
                                     <StickerObject.Component
                                         colors={theme.colors}
                                     />
@@ -260,9 +289,9 @@ PageBase.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     // Layout
-    // generateBlock: PropTypes.func.isRequired,
-    initialLayout: PropTypes.object.isRequired,
-    initialBlocks: PropTypes.array.isRequired,
+    // generateSticker: PropTypes.func.isRequired,
+    initialLayouts: PropTypes.object.isRequired,
+    initialStickers: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(PageBase);

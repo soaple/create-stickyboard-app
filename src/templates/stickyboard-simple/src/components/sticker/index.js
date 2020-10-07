@@ -13,8 +13,9 @@ const RechartsScatterChart = loadable(() => import('./RechartsScatterChart'));
 const RechartsTinyChart = loadable(() => import('./RechartsTinyChart'));
 const RechartsTreeMap = loadable(() => import('./RechartsTreeMap'));
 const RechartsStackedBarChart = loadable(() => import('./RechartsStackedBarChart'));
-//Empty
+// Empty
 const EmptySticker = loadable(() => import('./EmptySticker'));
+
 export default {
     Recharts: [
         {
@@ -73,10 +74,10 @@ export default {
             Component: RechartsStackedBarChart,
         },
     ],
-    Empty: [
+    Internal: [
         {
-            Name: 'EmptySticker',
-            Description: 'EmptySticker sample',
+            Name: 'Empty',
+            Description: 'Empty sticker',
             Component: EmptySticker,
         }
     ]
