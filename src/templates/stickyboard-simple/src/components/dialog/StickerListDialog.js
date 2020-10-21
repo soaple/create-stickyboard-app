@@ -15,9 +15,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Board, Sticker } from '@stickyboard/core';
-import StickerListByCategory from 'components/sticker';
+import StickerListByCategoryOriginal from 'components/sticker';
 
 // Delete internal stickers
+const StickerListByCategory = { ...StickerListByCategoryOriginal };
 delete StickerListByCategory.Internal;
 
 const StickerObjectContainer = styled.div`

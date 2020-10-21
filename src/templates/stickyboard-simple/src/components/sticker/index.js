@@ -79,6 +79,6 @@ export default {
             Name: 'Empty',
             Description: 'Empty sticker',
             Component: EmptySticker,
-        }
-    ]
+        },
+    ],
 };
