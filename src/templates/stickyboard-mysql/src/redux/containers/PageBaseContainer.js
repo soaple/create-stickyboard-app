@@ -16,12 +16,7 @@ var snackBarShownTime = null;
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        ...state,
-        messageSnackbar: {
-            ...state.messageSnackbarReducer,
-            open: state.messageSnackbarReducer.open,
-            message: state.messageSnackbarReducer.message,
-        }
+        messageSnackbar: state.messageSnackbarReducer,
     }
 }
 
@@ -44,6 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
             if (timeGap < SNACKBAR_MIN_SHOW_TIME) {
                 setTimeout(() => {
+                    snackBarShownTime = null;
                     dispatch(hideMessageSnackbar());
                 }, SNACKBAR_MIN_SHOW_TIME - timeGap);
             } else {
