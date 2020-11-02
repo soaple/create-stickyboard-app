@@ -86,8 +86,14 @@ class PageBase extends React.Component {
         const { initialLayouts, initialStickers } = this.props;
 
         this.setState({
-            layouts: initialLayouts,
-            stickers: initialStickers,
+            layouts: initialLayouts || {
+                lg: [],
+                md: [],
+                sm: [],
+                xs: [],
+                xxs: [],
+            },
+            stickers: initialStickers || [],
         });
     };
 
