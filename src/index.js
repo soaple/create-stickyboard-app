@@ -5,19 +5,20 @@ const { cli } = require("cli-ux");
 const chalk = require("chalk");
 
 const DEFAULT_APP_NAME = "my-stickyboard-app";
+const DEFAULT_TEMPLATE = "simple";
 // const PRIMARY_COLOR = "#FFCA29";
 const PRIMARY_COLOR = "#ffff00";
 
 const logPrimary = chalk.hex(PRIMARY_COLOR);
 
 class CreateStickyboardAppCommand extends Command {
-    static args = [{ name: "appName" }];
+    static args = [{ name: "appName" }, { name: "templateName" }];
 
     async run() {
         const { flags, args } = this.parse(CreateStickyboardAppCommand);
         // let name = flags.name;
 
-        let appName = args.appName;
+        let { appName, templateName } = args;
 
         // Prompt for input application name
         if (!appName) {
@@ -33,7 +34,23 @@ class CreateStickyboardAppCommand extends Command {
             }
         }
 
-        this.log(`Creating StickyBoard app (${appName})\n`);
+        // Prompt for input template name
+        if (!templateName) {
+            let inputTemplateName = await cli.prompt(
+                `Enter template name('${DEFAULT_TEMPLATE}' or 'mysql')`
+            );
+
+            inputTemplateName = inputTemplateName.trim();
+            if (inputTemplateName.length > 0) {
+                templateName = inputTemplateName;
+            } else {
+                templateName = DEFAULT_TEMPLATE;
+            }
+        }
+
+        this.log(
+            `Creating StickyBoard app (name: ${appName}, template: ${templateName})\n`
+        );
 
         // Create a target directory
         const targetDirectory = path.join(process.cwd(), appName);
@@ -54,8 +71,15 @@ class CreateStickyboardAppCommand extends Command {
 
         // Copy template to target directory
         try {
+            let templatePathName;
+            if (templateName === "simple") {
+                templatePathName = "stickyboard-simple";
+            } else if (templateName === "mysql") {
+                templatePathName = "stickyboard-mysql";
+            }
+
             await fse.copy(
-                path.join(__dirname, "templates", "stickyboard-simple"),
+                path.join(__dirname, "templates", templatePathName),
                 targetDirectory
             );
 
@@ -94,7 +118,7 @@ CreateStickyboardAppCommand.flags = {
     // add --version flag to show CLI version
     version: flags.version({ char: "v" }),
     // add --help flag to show CLI version
-    help: flags.help({ char: "h" })
+    help: flags.help({ char: "h" }),
     // name: flags.string({ char: "n", description: "application name to create" })
 };
 

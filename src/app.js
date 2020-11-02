@@ -17,7 +17,8 @@ const {
 
 const chalk = require("chalk");
 
-const DEFAULT_APP_NAME = "my-stickyboard-app"; // const PRIMARY_COLOR = "#FFCA29";
+const DEFAULT_APP_NAME = "my-stickyboard-app";
+const DEFAULT_TEMPLATE = "simple"; // const PRIMARY_COLOR = "#FFCA29";
 
 const PRIMARY_COLOR = "#ffff00";
 const logPrimary = chalk.hex(PRIMARY_COLOR);
@@ -29,7 +30,10 @@ class CreateStickyboardAppCommand extends Command {
       args
     } = this.parse(CreateStickyboardAppCommand); // let name = flags.name;
 
-    let appName = args.appName; // Prompt for input application name
+    let {
+      appName,
+      templateName
+    } = args; // Prompt for input application name
 
     if (!appName) {
       let inputAppName = await cli.prompt(`Enter application name(${DEFAULT_APP_NAME})`);
@@ -40,9 +44,21 @@ class CreateStickyboardAppCommand extends Command {
       } else {
         appName = DEFAULT_APP_NAME;
       }
+    } // Prompt for input template name
+
+
+    if (!templateName) {
+      let inputTemplateName = await cli.prompt(`Enter template name('${DEFAULT_TEMPLATE}' or 'mysql')`);
+      inputTemplateName = inputTemplateName.trim();
+
+      if (inputTemplateName.length > 0) {
+        templateName = inputTemplateName;
+      } else {
+        templateName = DEFAULT_TEMPLATE;
+      }
     }
 
-    this.log(`Creating StickyBoard app (${appName})\n`); // Create a target directory
+    this.log(`Creating StickyBoard app (name: ${appName}, template: ${templateName})\n`); // Create a target directory
 
     const targetDirectory = path.join(process.cwd(), appName);
     this.log(`Target directory: ${targetDirectory}\n`);
@@ -62,7 +78,15 @@ class CreateStickyboardAppCommand extends Command {
 
 
     try {
-      await fse.copy(path.join(__dirname, "templates", "stickyboard-simple"), targetDirectory);
+      let templatePathName;
+
+      if (templateName === "simple") {
+        templatePathName = "stickyboard-simple";
+      } else if (templateName === "mysql") {
+        templatePathName = "stickyboard-mysql";
+      }
+
+      await fse.copy(path.join(__dirname, "templates", templatePathName), targetDirectory);
       this.log(`\nSuccess! Created ${appName} at ${targetDirectory}
     Inside that directory, you can run several commands:\n`);
       this.log(logPrimary("    npm run dev"));
@@ -85,6 +109,8 @@ class CreateStickyboardAppCommand extends Command {
 
 _defineProperty(CreateStickyboardAppCommand, "args", [{
   name: "appName"
+}, {
+  name: "templateName"
 }]);
 
 CreateStickyboardAppCommand.description = `Create StickyBoard app
